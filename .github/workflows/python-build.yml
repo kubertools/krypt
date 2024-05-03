@@ -29,11 +29,10 @@ jobs:
     - name: Run checks with tox
       run: tox
     - name: Build an executable with pex
-      run: mkdir bin && pex . -o bin/krypt -e krypt.main:launch
+      run: mkdir bin && pex . -o bin/krypt -r deps.txt -e krypt.main:launch
     - name: Upload krypt executable
       uses: actions/upload-artifact@v4
       with:
         name: krypt
         path: bin/krypt
         retention-days: 7
-    
