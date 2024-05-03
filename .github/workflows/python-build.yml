@@ -13,8 +13,10 @@ permissions:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
@@ -25,14 +27,14 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build tox pex
+        pip install pex tox
     - name: Run checks with tox
       run: tox
     - name: Build an executable with pex
-      run: mkdir bin && pex . -o bin/krypt -r deps.txt -e krypt.main:launch
+      run: mkdir bin && pex . -o bin/krypt-${{ runner.os }} -r deps.txt -e krypt.main:launch
     - name: Upload krypt executable
       uses: actions/upload-artifact@v4
       with:
-        name: krypt
-        path: bin/krypt
+        name: krypt-${{ runner.os }}
+        path: bin/krypt-${{ runner.os }}
         retention-days: 7
