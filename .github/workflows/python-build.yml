@@ -1,6 +1,12 @@
 name: Build Python Package
 
-on: push
+on:
+  pull_request:
+    branches:
+    - main
+  push:
+    branches:
+    - main
 
 permissions:
   contents: read
