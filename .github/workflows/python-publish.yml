@@ -35,6 +35,10 @@ jobs:
         name: krypt-${{ runner.os }}
         path: bin/krypt-${{ runner.os }}
         retention-days: 7
+    - name: Add the executable to release assets
+      uses: softprops/action-gh-release@v2
+      with:
+        files: bin/krypt-${{ runner.os }}
 
   deploy:
     runs-on: ubuntu-latest
